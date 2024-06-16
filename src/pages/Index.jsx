@@ -33,10 +33,6 @@ const Index = () => {
     }
   };
 
-  const handleAddVenue = () => {
-    addVenueMutation.mutate({ name: venueName, capacity: venueCapacity, type: venueType });
-  };
-
   const handleUpdateEvent = () => {
     if (session && editingEvent) {
       updateEventMutation.mutate({ id: editingEvent.id, name: eventName, date: eventDate, venue: eventVenue });
