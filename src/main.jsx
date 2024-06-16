@@ -11,14 +11,19 @@ const colors = {
     700: "#2a69ac",
   },
   background: {
-    900: "#000000",
+    900: "#f5f5f5",
+    800: "#ffffff",
   },
   text: {
-    100: "#FFFFFF",
+    100: "#000000",
+    200: "#4a4a4a",
+    300: "#7a7a7a",
   },
   accent: {
-    purple: "#D6C1FF",
-    yellow: "#FFEB3B",
+    green: "#4caf50",
+    yellow: "#ffeb3b",
+    orange: "#ff9800",
+    red: "#f44336",
   },
 };
 
