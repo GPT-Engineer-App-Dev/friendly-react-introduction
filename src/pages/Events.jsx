@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Text, VStack, Box, Button, Input, Select } from "@chakra-ui/react";
+import { Container, Text, VStack, Box, Button, Input, Select, Flex, Heading, Badge } from "@chakra-ui/react";
 import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from "../integrations/supabase/index.js";
 import { useVenues } from "../integrations/supabase/index.js";
 import { useSupabaseAuth } from "../integrations/supabase/auth.jsx";
@@ -43,9 +43,9 @@ const Events = () => {
   };
 
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Container centerContent maxW="container.xl" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center" bg="background.800">
       <VStack spacing={4}>
-        <Text fontSize="4xl" fontWeight="bold">Event Management</Text>
+        <Heading size="lg" color="text.100">Event Management</Heading>
         <VStack spacing={4}>
           <Input placeholder="Event Name" value={eventName} onChange={(e) => setEventName(e.target.value)} />
           <Input type="date" placeholder="Event Date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
@@ -55,23 +55,25 @@ const Events = () => {
             ))}
           </Select>
           {editingEvent ? (
-            <Button onClick={handleUpdateEvent}>Update Event</Button>
+            <Button onClick={handleUpdateEvent} bg="accent.yellow">Update Event</Button>
           ) : (
-            <Button onClick={handleAddEvent}>Add Event</Button>
+            <Button onClick={handleAddEvent} bg="accent.yellow">Add Event</Button>
           )}
           <Box>
-            {eventsLoading ? <Text>Loading...</Text> : (
-              venuesLoading ? <Text>Loading venues...</Text> : events.map((event) => (
-                <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg" bg="accent.purple">
-                  <Text>Name: {event.name}</Text>
-                  <Text>Date: {event.date}</Text>
-                  <Text>Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
-                  {session && session.user.id === event.created_by && (
-                    <>
-                      <Button onClick={() => handleEditEvent(event)}>Edit</Button>
-                      <Button onClick={() => deleteEventMutation.mutate(event.id)}>Delete</Button>
-                    </>
-                  )}
+            {eventsLoading ? <Text color="text.200">Loading...</Text> : (
+              venuesLoading ? <Text color="text.200">Loading venues...</Text> : events.map((event) => (
+                <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg" bg="background.900" boxShadow="md" mt={2}>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Text color="text.100">Name: {event.name}</Text>
+                    <Text color="text.200">Date: {event.date}</Text>
+                    <Text color="text.100">Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
+                    {session && session.user.id === event.created_by && (
+                      <>
+                        <Button onClick={() => handleEditEvent(event)} variant="link" color="accent.green">Edit</Button>
+                        <Button onClick={() => deleteEventMutation.mutate(event.id)} variant="link" color="accent.red">Delete</Button>
+                      </>
+                    )}
+                  </Flex>
                 </Box>
               ))
             )}
