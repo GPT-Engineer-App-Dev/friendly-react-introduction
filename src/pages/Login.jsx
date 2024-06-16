@@ -15,7 +15,7 @@ const Login = () => {
 
   return (
     <Container centerContent>
-      <Box p={4} borderWidth="1px" borderRadius="lg" width="100%" maxWidth="md">
+      <Box p={4} borderWidth="1px" borderRadius="lg" width="100%" maxWidth="md" bg="accent.purple">
         <Heading as="h2" size="lg" mb={4}>Login</Heading>
         <SupabaseAuthUI />
       </Box>

@@ -10,9 +10,33 @@ const colors = {
     800: "#153e75",
     700: "#2a69ac",
   },
+  background: {
+    900: "#000000",
+  },
+  text: {
+    100: "#FFFFFF",
+  },
+  accent: {
+    purple: "#D6C1FF",
+    yellow: "#FFEB3B",
+  },
 };
 
-const theme = extendTheme({ colors });
+const theme = extendTheme({
+  colors,
+  styles: {
+    global: {
+      body: {
+        bg: "background.900",
+        color: "text.100",
+      },
+    },
+  },
+  fonts: {
+    heading: "Arial, sans-serif",
+    body: "Arial, sans-serif",
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

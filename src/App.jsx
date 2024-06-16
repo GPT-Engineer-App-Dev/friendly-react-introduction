@@ -11,9 +11,9 @@ function App() {
     <Router>
       <div>
         {session ? (
-          <Button onClick={logout}>Logout</Button>
+          <Button onClick={logout} bg="accent.yellow">Logout</Button>
         ) : (
-          <Button as="a" href="/login">Login</Button>
+          <Button as="a" href="/login" bg="accent.yellow">Login</Button>
         )}
       </div>
       <Routes>

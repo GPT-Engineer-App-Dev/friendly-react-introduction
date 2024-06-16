@@ -80,7 +80,7 @@ const Index = () => {
                 <Box>
                   {eventsLoading ? <Text>Loading...</Text> : (
                     venuesLoading ? <Text>Loading venues...</Text> : events.map((event) => (
-                      <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg">
+                      <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg" bg="accent.purple">
                         <Text>Name: {event.name}</Text>
                         <Text>Date: {event.date}</Text>
                         <Text>Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
@@ -104,7 +104,7 @@ const Index = () => {
                 <Button onClick={handleAddVenue}>Add Venue</Button>
                 <Box>
                   {venuesLoading ? <Text>Loading...</Text> : venues.map((venue) => (
-                    <Box key={venue.id} p={4} borderWidth="1px" borderRadius="lg">
+                    <Box key={venue.id} p={4} borderWidth="1px" borderRadius="lg" bg="accent.purple">
                       <Text>Name: {venue.name}</Text>
                       <Text>Capacity: {venue.capacity}</Text>
                       <Text>Type: {venue.type}</Text>
