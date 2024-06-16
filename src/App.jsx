@@ -3,6 +3,8 @@ import Index from "./pages/Index.jsx";
 import Login from "./pages/Login.jsx";
 import Events from "./pages/Events.jsx";
 import Venues from "./pages/Venues.jsx";
+import { useSupabaseAuth } from "./integrations/supabase/auth.jsx";
+import { Button } from "@chakra-ui/react";
 
 function App() {
   const { session, logout } = useSupabaseAuth();
