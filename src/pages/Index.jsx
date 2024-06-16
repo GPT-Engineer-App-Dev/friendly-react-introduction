@@ -11,6 +11,7 @@ const Index = () => {
   const [venueName, setVenueName] = useState("");
   const [venueCapacity, setVenueCapacity] = useState("");
   const [venueType, setVenueType] = useState("");
+  const [editingEvent, setEditingEvent] = useState(null);
 
   const { data: events, isLoading: eventsLoading } = useEvents();
   const { data: venues, isLoading: venuesLoading } = useVenues();
@@ -30,6 +31,22 @@ const Index = () => {
     } else {
       console.error("User is not authenticated");
     }
+  };
+
+  const handleUpdateEvent = () => {
+    if (session && editingEvent) {
+      updateEventMutation.mutate({ id: editingEvent.id, name: eventName, date: eventDate, venue: eventVenue });
+      setEditingEvent(null);
+    } else {
+      console.error("User is not authenticated or no event is being edited");
+    }
+  };
+
+  const handleEditEvent = (event) => {
+    setEditingEvent(event);
+    setEventName(event.name);
+    setEventDate(event.date);
+    setEventVenue(event.venue);
   };
 
   const handleAddVenue = () => {
@@ -55,14 +72,23 @@ const Index = () => {
                     <option key={venue.id} value={venue.id}>{venue.name}</option>
                   ))}
                 </Select>
-                <Button onClick={handleAddEvent}>Add Event</Button>
+                {editingEvent ? (
+                  <Button onClick={handleUpdateEvent}>Update Event</Button>
+                ) : (
+                  <Button onClick={handleAddEvent}>Add Event</Button>
+                )}
                 <Box>
                   {eventsLoading ? <Text>Loading...</Text> : events.map((event) => (
                     <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg">
                       <Text>Name: {event.name}</Text>
                       <Text>Date: {event.date}</Text>
                       <Text>Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
-                      <Button onClick={() => deleteEventMutation.mutate(event.id)}>Delete</Button>
+                      {session && session.user.id === event.created_by && (
+                        <>
+                          <Button onClick={() => handleEditEvent(event)}>Edit</Button>
+                          <Button onClick={() => deleteEventMutation.mutate(event.id)}>Delete</Button>
+                        </>
+                      )}
                     </Box>
                   ))}
                 </Box>
