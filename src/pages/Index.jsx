@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, Text, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Box, Button, Input, Select } from "@chakra-ui/react";
 import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from "../integrations/supabase/index.js";
 import { useVenues, useAddVenue, useUpdateVenue, useDeleteVenue } from "../integrations/supabase/index.js";
+import { useSupabaseAuth } from "../integrations/supabase/auth.jsx";
 
 const Index = () => {
   const [eventName, setEventName] = useState("");
@@ -14,6 +15,7 @@ const Index = () => {
   const { data: events, isLoading: eventsLoading } = useEvents();
   const { data: venues, isLoading: venuesLoading } = useVenues();
 
+  const { session } = useSupabaseAuth();
   const addEventMutation = useAddEvent();
   const updateEventMutation = useUpdateEvent();
   const deleteEventMutation = useDeleteEvent();
@@ -23,7 +25,11 @@ const Index = () => {
   const deleteVenueMutation = useDeleteVenue();
 
   const handleAddEvent = () => {
-    addEventMutation.mutate({ name: eventName, date: eventDate, venue: eventVenue });
+    if (session) {
+      addEventMutation.mutate({ name: eventName, date: eventDate, venue: eventVenue, created_by: session.user.id });
+    } else {
+      console.error("User is not authenticated");
+    }
   };
 
   const handleAddVenue = () => {
