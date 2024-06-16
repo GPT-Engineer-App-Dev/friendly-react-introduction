@@ -78,19 +78,21 @@ const Index = () => {
                   <Button onClick={handleAddEvent}>Add Event</Button>
                 )}
                 <Box>
-                  {eventsLoading ? <Text>Loading...</Text> : events.map((event) => (
-                    <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg">
-                      <Text>Name: {event.name}</Text>
-                      <Text>Date: {event.date}</Text>
-                      <Text>Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
-                      {session && session.user.id === event.created_by && (
-                        <>
-                          <Button onClick={() => handleEditEvent(event)}>Edit</Button>
-                          <Button onClick={() => deleteEventMutation.mutate(event.id)}>Delete</Button>
-                        </>
-                      )}
-                    </Box>
-                  ))}
+                  {eventsLoading ? <Text>Loading...</Text> : (
+                    venuesLoading ? <Text>Loading venues...</Text> : events.map((event) => (
+                      <Box key={event.id} p={4} borderWidth="1px" borderRadius="lg">
+                        <Text>Name: {event.name}</Text>
+                        <Text>Date: {event.date}</Text>
+                        <Text>Venue: {venues.find(v => v.id === event.venue)?.name || "Unknown"}</Text>
+                        {session && session.user.id === event.created_by && (
+                          <>
+                            <Button onClick={() => handleEditEvent(event)}>Edit</Button>
+                            <Button onClick={() => deleteEventMutation.mutate(event.id)}>Delete</Button>
+                          </>
+                        )}
+                      </Box>
+                    ))
+                  )}
                 </Box>
               </VStack>
             </TabPanel>
